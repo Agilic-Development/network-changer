@@ -4,7 +4,7 @@
 # Switchs from HostAPD to wlan0, uses netfaceschanger.py
 # Author : Alex Gray
 if [ $# = 0 ];then
-	echo "ERROR: Wrong arugments passed!"
+	echo "***ERROR: Wrong number of arugments passed!"
 	echo "-----------------------------------"
 	echo "Usage:"
 	echo "wlan NETWORK_NAME PASSWORD"
@@ -13,24 +13,26 @@ if [ $# = 0 ];then
 else
 	if [ $# = 1 ] && [ $1 = "host" ];
 	then
-		echo "Reconfiguring Network Interfaces"
-		python netfaceschanger.py host
-		echo "Attempting to start hostapd"
+		echo "**Reconfiguring Network Interfaces**"
+		sudo python netfaceschanger.py host
+		echo "**Attempting to start hostapd**"
 		/etc/init.d/hostapd start
-		echo "Attempting to strat isc-dhcp-server"
+		echo "**Attempting to strat isc-dhcp-server**"
 		/etc/init.d/isc-dhcp-server start
-		echo "Attempting to restart robot_web_server.py"
-		/etc/init.d/robot_web_server restart
+		echo "**Attempting to restart robot_web_server.py**"
+		/etc/init.d/robot_web_server stop
+		/etc/init.d/robot_web_server start
 	elif [ $# = 2 ];
 	then
-		echo "Attempting to stop hostapd"
+		echo "**Attempting to stop hostapd**"
 		/etc/init.d/hostapd stop
-		echo "Attempting to stop isc-dhcp-server"
+		echo "**Attempting to stop isc-dhcp-server**"
 		/etc/init.d/isc-dhcp-server stop
-		echo "Reconfiguring Network Interfaces"
-		python netfaceschanger.py wlan $1 $2
-		echo "Attempting to restart robot_web_server.py"
-		/etc/init.d/robot_web_server restart
+		echo "**Reconfiguring Network Interfaces**"
+		sudo python netfaceschanger.py wlan $1 $2
+		echo "**Attempting to restart robot_web_server.py**"
+		/etc/init.d/robot_web_server stop
+		/etc/init.d/robot_web_server start
 	fi
 
 	echo "-----------------------------------"
