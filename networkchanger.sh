@@ -13,24 +13,24 @@ if [ $# = 0 ];then
 else
 	if [ $# = 1 ] && [ $1 = "host" ];
 	then
-		echo "**Reconfiguring Network Interfaces**"
+		echo "$(tput setaf 5)**Reconfiguring Network Interfaces**$(tput sgr 0)"
 		sudo python netfaceschanger.py host
-		echo "**Attempting to start hostapd**"
+		echo "$(tput setaf 5)**Attempting to start hostapd**$(tput sgr 0)"
 		/etc/init.d/hostapd start
-		echo "**Attempting to strat isc-dhcp-server**"
+		echo "$(tput setaf 5)**Attempting to strat isc-dhcp-server**$(tput sgr 0)"
 		/etc/init.d/isc-dhcp-server start
-		echo "**Attempting to restart robot_web_server.py**"
+		echo "$(tput setaf 5)**Attempting to restart robot_web_server.py**$(tput sgr 0)"
 		/etc/init.d/robot_web_server stop
 		/etc/init.d/robot_web_server start
 	elif [ $# = 2 ];
 	then
-		echo "**Attempting to stop hostapd**"
+		echo "$(tput setaf 5)**Attempting to stop hostapd**$(tput sgr 0)"
 		/etc/init.d/hostapd stop
-		echo "**Attempting to stop isc-dhcp-server**"
+		echo "$(tput setaf 5)**Attempting to stop isc-dhcp-server**$(tput sgr 0)"
 		/etc/init.d/isc-dhcp-server stop
-		echo "**Reconfiguring Network Interfaces**"
+		echo "$(tput setaf 5)**Reconfiguring Network Interfaces**$(tput sgr 0)"
 		sudo python netfaceschanger.py wlan $1 $2
-		echo "**Attempting to restart robot_web_server.py**"
+		echo "$(tput setaf 5)**Attempting to restart robot_web_server.py**$(tput sgr 0)"
 		/etc/init.d/robot_web_server stop
 		/etc/init.d/robot_web_server start
 	fi
